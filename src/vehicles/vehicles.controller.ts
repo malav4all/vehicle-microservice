@@ -47,7 +47,10 @@ export class VehiclesController {
   }
 
   @Get()
-  async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+  async findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10
+  ) {
     try {
       const result = await this.vehiclesService.findAll(+page, +limit);
       return createApiResponse(
@@ -75,6 +78,42 @@ export class VehiclesController {
       );
     }
   }
+
+  @Get('search')
+  async search(
+    @Query('searchText') searchText: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10
+  ) {
+    try {
+      console.log({searchText})
+      const result = await this.vehiclesService.search(searchText, +page, +limit);
+      return createApiResponse(
+        true,
+        HttpStatus.OK,
+        'Vehicles retrieved successfully',
+        result.data,
+        result.total,
+        page,
+        limit
+      );
+    } catch (error) {
+      throw new HttpException(
+        createApiResponse(
+          false,
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          error.message,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          'Failed to search vehicles'
+        ),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+  
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
