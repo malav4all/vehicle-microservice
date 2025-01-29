@@ -27,7 +27,7 @@ export class VehiclesController {
         true,
         HttpStatus.CREATED,
         'Vehicle created successfully',
-        vehicle
+        vehicle,
       );
     } catch (error) {
       throw new HttpException(
@@ -39,18 +39,15 @@ export class VehiclesController {
           undefined,
           undefined,
           undefined,
-          'Failed to create vehicle'
+          'Failed to create vehicle',
         ),
-        HttpStatus.BAD_REQUEST
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
 
   @Get()
-  async findAll(
-    @Query('page') page = 1,
-    @Query('limit') limit = 10
-  ) {
+  async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
     try {
       const result = await this.vehiclesService.findAll(+page, +limit);
       return createApiResponse(
@@ -60,7 +57,7 @@ export class VehiclesController {
         result.data,
         result.total,
         page,
-        limit
+        limit,
       );
     } catch (error) {
       throw new HttpException(
@@ -72,9 +69,9 @@ export class VehiclesController {
           undefined,
           undefined,
           undefined,
-          'Failed to retrieve vehicles'
+          'Failed to retrieve vehicles',
         ),
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
@@ -83,11 +80,15 @@ export class VehiclesController {
   async search(
     @Query('searchText') searchText: string,
     @Query('page') page = 1,
-    @Query('limit') limit = 10
+    @Query('limit') limit = 10,
   ) {
     try {
-      console.log({searchText})
-      const result = await this.vehiclesService.search(searchText, +page, +limit);
+      console.log({ searchText });
+      const result = await this.vehiclesService.search(
+        searchText,
+        +page,
+        +limit,
+      );
       return createApiResponse(
         true,
         HttpStatus.OK,
@@ -95,7 +96,7 @@ export class VehiclesController {
         result.data,
         result.total,
         page,
-        limit
+        limit,
       );
     } catch (error) {
       throw new HttpException(
@@ -107,13 +108,12 @@ export class VehiclesController {
           undefined,
           undefined,
           undefined,
-          'Failed to search vehicles'
+          'Failed to search vehicles',
         ),
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
-  
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -123,7 +123,7 @@ export class VehiclesController {
         true,
         HttpStatus.OK,
         'Vehicle retrieved successfully',
-        vehicle
+        vehicle,
       );
     } catch (error) {
       throw new HttpException(
@@ -135,22 +135,25 @@ export class VehiclesController {
           undefined,
           undefined,
           undefined,
-          'Vehicle not found'
+          'Vehicle not found',
         ),
-        HttpStatus.NOT_FOUND
+        HttpStatus.NOT_FOUND,
       );
     }
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateVehicleDto: UpdateVehicleDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateVehicleDto: UpdateVehicleDto,
+  ) {
     try {
       const vehicle = await this.vehiclesService.update(id, updateVehicleDto);
       return createApiResponse(
         true,
         HttpStatus.OK,
         'Vehicle updated successfully',
-        vehicle
+        vehicle,
       );
     } catch (error) {
       throw new HttpException(
@@ -162,9 +165,9 @@ export class VehiclesController {
           undefined,
           undefined,
           undefined,
-          'Failed to update vehicle'
+          'Failed to update vehicle',
         ),
-        HttpStatus.BAD_REQUEST
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
@@ -176,7 +179,7 @@ export class VehiclesController {
       return createApiResponse(
         true,
         HttpStatus.NO_CONTENT,
-        'Vehicle deleted successfully'
+        'Vehicle deleted successfully',
       );
     } catch (error) {
       throw new HttpException(
@@ -188,9 +191,9 @@ export class VehiclesController {
           undefined,
           undefined,
           undefined,
-          'Vehicle not found'
+          'Vehicle not found',
         ),
-        HttpStatus.NOT_FOUND
+        HttpStatus.NOT_FOUND,
       );
     }
   }
